@@ -34,13 +34,44 @@ const xAxisGroup = graph.append('g')
 const yAxisGroup = graph.append('g')
     .attr('class', 'y-axis');
 
+// d3 line path generator
+
+const line = d3.line()
+    .x(function (d) {
+        return x(new Date(d.date))
+    })
+    .y(function (d) {
+        return y(d.distance)
+    });
+
+// line path element
+
+const path = graph.append('path');
+
 
 const update = (data) => {
+
+    data = data.filter(item => item.activity == activity);
+
+    // sort data based on date objects
+
+    data.sort((a, b) => new Date(a.date) - new Date(b.date))
+
 
     // set scale domains
 
     x.domain(d3.extent(data, d => new Date(d.date)))
     y.domain([0, d3.max(data, d => d.distance)])
+
+    // update path data
+
+    path.data([data])
+        .attr('fill', 'none')
+        .attr('stroke', '#00bfa5')
+        .attr('stroke-width', 2)
+        .attr('d', line)
+
+
 
     // create circles for objects
 
@@ -56,7 +87,7 @@ const update = (data) => {
 
     circles
         .attr('cx', d => x(new Date(d.date)))
-        .attr('cy', d => y(d.distnace))
+        .attr('cy', d => y(d.distance))
 
 
     // add new points
@@ -65,17 +96,17 @@ const update = (data) => {
         .append('circle')
         .attr('r', 4)
         .attr('cx', d => x(new Date(d.date)))
-        .attr('cy', d => y(d.distnace))
+        .attr('cy', d => y(d.distance))
         .attr('fill', '#ccc')
 
     // create axes
 
     const xAxis = d3.axisBottom(x)
-        .ticks(4)
+        .ticks(5)
         .tickFormat(d3.timeFormat('%b %d'))
 
     const yAxis = d3.axisLeft(y)
-        .ticks(4)
+        .ticks(5)
         .tickFormat(d => d + 'm')
 
     // call axes
