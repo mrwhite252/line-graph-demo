@@ -44,7 +44,27 @@
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/5.4.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.4.2/firebase-firestore.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCbL9n5yZX5fmGs_OLmyUCtycEYSH7t2IM",
+            authDomain: "d3-firebase-4b30b.firebaseapp.com",
+            projectId: "d3-firebase-4b30b",
+            storageBucket: "d3-firebase-4b30b.appspot.com",
+            messagingSenderId: "247510723641",
+            appId: "1:247510723641:web:a6099536a191fabe0471e8"
+        };
 
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const settings = {
+            timestampsInSnapshots: true
+        };
+        db.settings(settings);
+    </script>
 
 
     <script src="https://d3js.org/d3.v5.js"></script>
