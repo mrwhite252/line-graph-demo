@@ -42,6 +42,32 @@ const update = (data) => {
     x.domain(d3.extent(data, d => new Date(d.date)))
     y.domain([0, d3.max(data, d => d.distance)])
 
+    // create circles for objects
+
+    const circles = graph.selectAll('circle')
+        .data(data)
+
+
+    // remove unwanted points
+
+    circles.exit().remove();
+
+    // update current points
+
+    circles
+        .attr('cx', d => x(new Date(d.date)))
+        .attr('cy', d => y(d.distnace))
+
+
+    // add new points
+
+    circles.enter()
+        .append('circle')
+        .attr('r', 4)
+        .attr('cx', d => x(new Date(d.date)))
+        .attr('cy', d => y(d.distnace))
+        .attr('fill', '#ccc')
+
     // create axes
 
     const xAxis = d3.axisBottom(x)
